@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "nexus"
+version = "0.1.0"
+description = "Circuit server."
+authors = ["esoteric-ai"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.95.0"
+uvicorn = "^0.21.0"
+redis = "^4.5.0"
+websockets = "^10.4"
+
+[tool.poetry.dev-dependencies]
+poethepoet = "^0.19.0"
+
+[tool.poe.tasks]
+dev = "uvicorn app.main:app --host 127.0.0.1 --port 6325 --reload"
+start = "uvicorn app.main:app --host 0.0.0.0 --port 6325"
