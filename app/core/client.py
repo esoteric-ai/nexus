@@ -43,7 +43,6 @@ class Client:
             while True:
                 print("receiving json")
                 data = await self.websocket.receive_json()
-                print(data)
                 await self.handle_incoming_message(data)
         except WebSocketDisconnect:
             print(f"Client {self.uid} disconnected.")
