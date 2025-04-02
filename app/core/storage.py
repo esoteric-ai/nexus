@@ -1,14 +1,22 @@
 # app/core/storage.py
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 # Existing storages
 jobs_storage: Dict[str, Dict[str, Any]] = {}
 tasks_storage: Dict[str, Dict[str, Any]] = {}
 completed_tasks_storage: Dict[str, Dict[str, Any]] = {}
+# New storage for streaming chunks
+completed_chunks_storage: Dict[str, List[Dict[str, Any]]] = {}
 
 # New in-memory storage for registered workers
 workers_storage: Dict[str, Dict[str, Any]] = {}
+
+# Historical storage for all workers that have ever connected
+historical_workers_storage: Dict[str, Dict[str, Any]] = {}
+
+# Track hot and cold models for each worker
+worker_models_status: Dict[str, Dict[str, List[Dict[str, Any]]]] = {}
 
 def get_or_create_job(job_name: str) -> Dict[str, Any]:
     if job_name not in jobs_storage:
