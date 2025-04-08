@@ -262,7 +262,8 @@ async def chat_completions(request: Request, background_tasks: BackgroundTasks):
             # Wait for completion and return
             try:
                 completion = await client.wait_for_completion()
-                return format_openai_response(completion, request_id, model)
+                
+                return completion['response']
             except TimeoutError:
                 raise HTTPException(status_code=408, detail="Request timeout")
                 
