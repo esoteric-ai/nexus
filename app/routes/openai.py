@@ -184,7 +184,7 @@ async def chat_completions(request: Request, background_tasks: BackgroundTasks):
         top_p = body.get("top_p", 1.0)
         tools = body.get("tools", [])
         tool_choice = body.get("tool_choice", "auto")
-        mm_processor_kwargs = body.get("mm_processor_kwargs", "{}")
+        mm_processor_kwargs = body.get("mm_processor_kwargs",{})
         
         # Generate unique request ID
         request_id = f"chatcmpl-{uuid.uuid4().hex[:10]}"
