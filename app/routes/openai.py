@@ -117,35 +117,9 @@ async def stream_openai_response(client: OpenAIClient, task_id: str, request_id:
 
 def convert_messages_format(messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Convert OpenAI message format to our internal format"""
-    conversation = []
+
     
-    for msg in messages:
-        role = msg.get("role", "")
-        content = msg.get("content", "")
-        
-        # Map OpenAI roles to our internal format
-        if role in ["system", "developer"]:
-            internal_role = "system"
-        elif role in ["user", "assistant", "tool", "function"]:
-            internal_role = role
-        else:
-            internal_role = "user"  # Default fallback
-        
-        message_dict = {
-            "role": internal_role,
-            "content": content
-        }
-        
-        # Preserve tool_calls if present
-        if "tool_calls" in msg:
-            message_dict["tool_calls"] = msg["tool_calls"]
-        
-        if "image" in msg:
-            message_dict["image"] = msg["image"]
-            
-        conversation.append(message_dict)
-    
-    return conversation
+    return messages
 
 def format_openai_response(completion: Dict[str, Any], request_id: str, model: str) -> Dict[str, Any]:
     """Format a completion as an OpenAI API response"""
@@ -210,6 +184,7 @@ async def chat_completions(request: Request, background_tasks: BackgroundTasks):
         top_p = body.get("top_p", 1.0)
         tools = body.get("tools", [])
         tool_choice = body.get("tool_choice", "auto")
+        mm_processor_kwargs = body.get("mm_processor_kwargs", "{}")
         
         # Generate unique request ID
         request_id = f"chatcmpl-{uuid.uuid4().hex[:10]}"
@@ -238,6 +213,7 @@ async def chat_completions(request: Request, background_tasks: BackgroundTasks):
             },
             "tools": tools,
             "tool_choice": tool_choice,
+            "mm_processor_kwargs": mm_processor_kwargs,
             "created_at": datetime.now().isoformat()
         }
         
