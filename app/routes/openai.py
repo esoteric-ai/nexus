@@ -214,6 +214,7 @@ async def chat_completions(request: Request, background_tasks: BackgroundTasks):
             "tools": tools,
             "tool_choice": tool_choice,
             "mm_processor_kwargs": mm_processor_kwargs,
+            "extra": body,
             "created_at": datetime.now().isoformat()
         }
         
