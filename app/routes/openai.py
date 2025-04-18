@@ -47,7 +47,7 @@ class OpenAIClient:
             # Clear the processed chunks
             completed_chunks_storage[task_id] = []
     
-    async def wait_for_completion(self, timeout=3000):
+    async def wait_for_completion(self, timeout=99999):
         """Wait for a task to be completed"""
         try:
             return await asyncio.wait_for(self.task_queue.get(), timeout=timeout)
